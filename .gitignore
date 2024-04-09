@@ -3,4 +3,5 @@
 /frontend/.next/
 /frontend/out/
 /frontend/*.tsbuildinfo
+node_modules
 /frontend/next-env.d.ts
