@@ -10,7 +10,8 @@ export type bookDataType = {
   price: number,
   author: string,
   ISBN: string,
-  publicationYear: number
+  publicationYear: number,
+  _id: string;
 }
 
 const Stock = () => {
@@ -21,6 +22,7 @@ const Stock = () => {
       fetch("http://localhost:3001/book")
       .then((response) => response.json())
       .then((data) => setBookData(data));
+      console.log(bookData)
     }
     catch(e) {
       console.log(e)
@@ -28,10 +30,11 @@ const Stock = () => {
   },[])
 
   return (
-    <div className='grid grid-cols-3 gap-y-8 gap-x-2'>
+    <div className='grid lg:grid-cols-3 grid-cols-1 gap-y-8 gap-x-4'>
 
       {
         bookData.map((book) => (
+          
           <BookCard 
           title={book.title}
           desc={book.description}

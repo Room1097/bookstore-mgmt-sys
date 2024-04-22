@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import CreateBook from "../CreateBook/CreateBook";
+import BuyBook from "../BuyBook/BuyBook";
 
 export const ModalProvider = ()=>{
     const [isMounted,setIsMounted]=useState(false);
@@ -15,6 +16,7 @@ export const ModalProvider = ()=>{
     return(
         <>
         <CreateBook/>
+        <BuyBook/>
         </>
     )
 }

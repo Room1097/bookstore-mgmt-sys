@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType ="createBook"|"editBook"
+export type ModalType ="createBook"|"editBook"|"buyBook" 
 interface ModalStore {
     type : ModalType | null;
     isOpen: boolean;

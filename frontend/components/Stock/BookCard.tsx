@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Card,
@@ -9,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/formatters";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface BookCardProps {
   title: string;
   desc: string;
@@ -19,6 +18,9 @@ interface BookCardProps {
   price: number;
   date: number;
 }
+import { PencilIcon } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import { Button } from "../ui/button";
 
 const BookCard = ({
   title,
@@ -29,13 +31,11 @@ const BookCard = ({
   isbn,
   date,
 }: BookCardProps) => {
-
-  
   return (
-    <div className="w-[28vw]">
-      <Card>
+    <div className=" h-auto">
+      <Card className="p-auto">
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="">{title}</CardTitle>
           <div className="flex flex-col gap-8">
             <div className="flex gap-4 justify-between items-center">
               <CardDescription>{author}</CardDescription>
@@ -53,10 +53,22 @@ const BookCard = ({
           </div>
         </CardContent>
         <CardFooter>
-        <ScrollArea className="h-[25vh] w-auto rounded-md border p-4">
-          {desc}
-          </ScrollArea>
-          </CardFooter>
+          <div className="flex flex-col gap-4">
+            <ScrollArea className="h-[25vh] w-auto rounded-md border p-4">
+              {desc}
+            </ScrollArea>
+            <div className="flex justify-end">
+              <div className="flex justify-center items-center gap-4">
+                <Button className="">
+                  <PencilIcon />
+                </Button>
+                <Button>
+                  <Trash2 />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
