@@ -1,6 +1,5 @@
-
-
 import CreateBookButton from "@/components/CreateBook/CreateBookButton";
+import Stock from "@/components/Stock/Stock";
 
 import {
   Card,
@@ -11,12 +10,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-
 export default function AdminProductPage() {
-
   return (
     <div>
-      <CreateBookButton/>
+      <CreateBookButton />
+      <Stock />
     </div>
   );
 }
