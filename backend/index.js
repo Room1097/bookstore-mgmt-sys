@@ -2,7 +2,7 @@ const express =  require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 // Import your Book and Sales models
-const { Book,Sales } = require('./models/schema');
+const { Book,Sales, Buy } = require('./models/schema');
 // const databaseurl = "mongodb+srv://ROOM1097:@DBMSdiu@bookstore.mongocluster.cosmos.azure.com/book?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
 const databaseurl = "mongodb+srv://ROOM1097:0DBMSdiu@bookstore.mongocluster.cosmos.azure.com/book?retryWrites=true&w=majority";
 const PORT = 3001;
@@ -83,6 +83,49 @@ app.post('/sales', async (req, res) => {
 app.get('/sales', async (req, res) => {
     try {
         const sales = await Sales.find();
+        
+        res.status(200).send(sales);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.post('/buy', async (req, res) => {
+    try {
+        const { bookId, quantity,supplier } = req.body;
+
+        // Find the book based on the provided bookId
+        const book = await Book.findById(bookId);
+
+        if (!book) {
+            return res.status(404).send('Book not found');
+        }
+        book.stockQuantity += quantity;
+
+        // Save the updated book to the database
+        await book.save();
+        // Create a new sales document
+        const newSale = new Buy({
+            book: book._id, // Assign the book's ObjectId
+            quantity: quantity,
+            supplier : supplier
+        });
+
+        // Save the new sale to the database
+        const savedSale = await newSale.save();
+        console.log(savedSale)
+        res.status(201).send(savedSale);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+app.get('/buy', async (req, res) => {
+    try {
+        const sales = await Buy.find();
         
         res.status(200).send(sales);
     } catch (error) {
