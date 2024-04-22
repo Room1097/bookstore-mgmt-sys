@@ -38,6 +38,26 @@ const CreateBookForm = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+     fetch("http://localhost:3001/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title:values.title,
+        author: values.author,
+        category: values.category,
+        ISBN: values.ISBN,
+        price: values.price,
+        publicationYear: values.publicationDate,
+        description: values.description
+      }),
+    }).then((res) => {
+      res.json();
+    });
+    window.location.reload()
+       
   }
   return (
     <Form {...form}>
