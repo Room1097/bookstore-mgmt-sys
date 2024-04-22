@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModalProvider } from "@/components/providers/ModalProvider";
 const inter = Inter({ subsets: ["latin"] });
+import { Nav } from "@/components/Nav";
+import { NavLink } from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,8 +27,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ModalProvider/>
+
+          <Nav>
+        <NavLink href="/">Dashboard</NavLink>
+        <NavLink href="/products">Books</NavLink>
+        <NavLink href="/transaction">Transactions</NavLink>
+        <NavLink href="/sales">Sales</NavLink>
+      </Nav>
+      <div className="container my-6">{children}</div>
             
-          {children}
+         
 
         </ThemeProvider>
       </body>

@@ -3,10 +3,10 @@ import React from 'react'
 import BookCard from './BookCard'
 import { useEffect, useState } from "react";
 
-type bookDataType = {
+export type bookDataType = {
   title: string,
-  desc: string,
-  stock: number,
+  description: string,
+  stockQuantity: number,
   price: number,
   author: string,
   ISBN: string,
@@ -34,9 +34,9 @@ const Stock = () => {
         bookData.map((book) => (
           <BookCard 
           title={book.title}
-          desc={book.desc}
+          desc={book.description}
           date={book.publicationYear}
-          stock={book.stock}
+          stock={book.stockQuantity}
           price={book.price}
           author={book.author}
           isbn={book.ISBN}

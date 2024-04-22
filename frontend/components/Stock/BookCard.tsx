@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/formatters";
-
+import { ScrollArea } from "@/components/ui/scroll-area"
 interface BookCardProps {
   title: string;
   desc: string;
@@ -52,7 +52,11 @@ const BookCard = ({
             {formatCurrency(price)}
           </div>
         </CardContent>
-        <CardFooter>{desc}</CardFooter>
+        <CardFooter>
+        <ScrollArea className="h-[25vh] w-auto rounded-md border p-4">
+          {desc}
+          </ScrollArea>
+          </CardFooter>
       </Card>
     </div>
   );

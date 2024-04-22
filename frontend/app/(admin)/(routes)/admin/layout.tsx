@@ -10,13 +10,7 @@ export default function AdminLayout({
 }>) {
   return (
     <>
-      <Nav>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Books</NavLink>
-        <NavLink href="/admin/transaction">Transactions</NavLink>
-        <NavLink href="/admin/sales">Sales</NavLink>
-      </Nav>
-      <div className="container my-6">{children}</div>
+     
     </>
   );
 }
