@@ -24,9 +24,9 @@ router.get('/stock', async (req, res) => {
         let stock = 0;
         for (let i = 0; i < books.length; i++) {
             
-            revenue += books[i].stockQuantity;
+            stock += books[i].stockQuantity;
         }
-        res.status(200).json({ revenue: revenue });
+        res.status(200).json({ stock });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');
