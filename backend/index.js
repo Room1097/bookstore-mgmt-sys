@@ -104,6 +104,22 @@ app.delete('/buy/:id', async (req, res) => {
     try {
         const buyId = req.params.id;
 
+        const buy = await Buy.findById(buyId);
+
+        if (!buy) {
+            return res.status(404).send('Buy not found');
+        }
+
+        const book = await Book.findById(buy.book);
+
+        if (!book) {
+            return res.status(404).send('Book not found');
+        }
+
+        book.stockQuantity -= buy.quantity;
+
+        await book.save();
+
         await Buy.findByIdAndDelete(buyId);
 
         res.status(200).send('Buy entry deleted successfully');
@@ -112,6 +128,7 @@ app.delete('/buy/:id', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 app.delete('/book/:id', async (req, res) => {
     try {
