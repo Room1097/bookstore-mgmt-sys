@@ -20,6 +20,7 @@ interface BookCardProps {
   price: number;
   date: number;
   id: string;
+  category: string;
 }
 import { PencilIcon } from "lucide-react";
 import { Trash2 } from "lucide-react";
@@ -35,18 +36,22 @@ const BookCard = ({
   isbn,
   date,
   id,
+  category
 }: BookCardProps) => {
   return (
     <div className=" h-auto">
       <Card className="p-auto">
         <CardHeader>
           <CardTitle className="">{title}</CardTitle>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4">
             <div className="flex gap-4 justify-between items-center">
               <CardDescription>{author}</CardDescription>
               <CardDescription>Publication Year: {date}</CardDescription>
             </div>
+            <div>
+            <CardDescription className="capitalize">Category: {category}</CardDescription>
             <CardDescription>ISBN: {isbn}</CardDescription>
+            </div>
           </div>
         </CardHeader>
         <CardContent>

@@ -45,6 +45,7 @@ const Stock = () => {
           author={book.author}
           isbn={book.ISBN}
           id={book._id}
+          category={book.category}
         />
         ))
       }
