@@ -10,7 +10,6 @@ import {
 import { formatCurrency, formatISBN } from "@/lib/formatters";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-
 interface BookCardProps {
   title: string;
   desc: string;
@@ -36,21 +35,23 @@ const BookCard = ({
   isbn,
   date,
   id,
-  category
+  category,
 }: BookCardProps) => {
   return (
-    <div className=" h-auto">
+    <div className="w-[30vw]">
       <Card className="p-auto">
         <CardHeader>
           <CardTitle className="">{title}</CardTitle>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pt-4">
             <div className="flex gap-4 justify-between items-center">
               <CardDescription>{author}</CardDescription>
               <CardDescription>Publication Year: {date}</CardDescription>
             </div>
-            <div>
-            <CardDescription className="capitalize">Category: {category}</CardDescription>
-            <CardDescription>ISBN: {formatISBN(isbn)}</CardDescription>
+            <div className="flex flex-col gap-2">
+              <CardDescription className="capitalize">
+                Category: {category}
+              </CardDescription>
+              <CardDescription>ISBN: {formatISBN(isbn)}</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -64,29 +65,14 @@ const BookCard = ({
         </CardContent>
         <CardFooter>
           <div className="flex flex-col gap-4">
-            <ScrollArea className="h-[25vh] w-auto rounded-md border p-4">
+            <ScrollArea className="h-[20vh] w-[26vw] rounded-md border p-4 m-auto">
               {desc}
             </ScrollArea>
-            <div className="flex justify-between">
-              <div>
-                
-              </div>
-              <div className="flex justify-center items-center gap-4">
+            
+              <div className="flex justify-end items-center">
                 <EditBook id={id} />
-
-                <Button
-                  onClick={() => {
-                    // console.log(id);
-                    fetch(`http://localhost:3001/book/${id}`, {
-                      method: "DELETE",
-                    });
-                    window.location.reload();
-                  }}
-                >
-                  <Trash2 />
-                </Button>
               </div>
-            </div>
+            
           </div>
         </CardFooter>
       </Card>

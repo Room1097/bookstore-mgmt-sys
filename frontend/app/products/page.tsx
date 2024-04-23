@@ -1,4 +1,5 @@
 import CreateBookButton from "@/components/CreateBook/CreateBookButton";
+import Header from "@/components/Header/Header";
 import Stock from "@/components/Stock/Stock";
 
 import {
@@ -12,8 +13,12 @@ import {
 
 export default function AdminProductPage() {
   return (
-    <div>
+    <div className="flex flex-col gap-6">
+      <Header>Products Page</Header>
+      <div className="flex justify-end">
+
       <CreateBookButton />
+      </div>
       <Stock />
     </div>
   );

@@ -91,7 +91,7 @@ const EditBook = ({ id }: EditBookProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant="outline">
           <PenIcon />
         </Button>
       </DialogTrigger>

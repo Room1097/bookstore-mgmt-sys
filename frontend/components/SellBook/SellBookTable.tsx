@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { bookDataType } from "../Stock/Stock";
 import { formatNumber } from "@/lib/formatters";
 import { formatDateFromString } from "@/lib/formatters";
+import { Skeleton } from "../ui/skeleton";
 
 export type sellDataType = {
   salesDate: Date;
@@ -32,78 +33,90 @@ export type sellDataType = {
   _id: string;
 };
 
+function SkeletonCard() {
+  return (
+    <div className="flex justify-center space-y-3">
+      <Skeleton className="h-[50vh] w-[90vw] rounded-xl" />
+    </div>
+  );
+}
+
 const SellBookTable = () => {
   const [sellData, setSellData] = useState<sellDataType[] | null>(null);
   const [bookData, setBookData] = useState<bookDataType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:3001/sales")
       .then((response) => response.json())
       .then((data) => setSellData(data));
 
-    console.log(sellData);
   }, []);
 
   useEffect(() => {
     fetch("http://localhost:3001/book")
       .then((response) => response.json())
       .then((data) => setBookData(data));
-    console.log(bookData);
+      setLoading(false)
   }, []);
 
   return (
-    <Table>
-      <TableCaption>A list of your recent purchases.</TableCaption>
-      <TableHeader>
+   <>
+   {
+    loading ? <SkeletonCard /> :  <Table>
+    <TableCaption>A list of your recent purchases.</TableCaption>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Book</TableHead>
+        <TableHead>Quantity</TableHead>
+        <TableHead>Date</TableHead>
+        <TableHead className="w-0">
+          <span className="sr-only">Action</span>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {sellData?.map((item) => (
         <TableRow>
-          <TableHead>Book</TableHead>
-          <TableHead>Quantity</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead className="w-0">
-            <span className="sr-only">Action</span>
-          </TableHead>
+          <TableCell className="font-medium">
+            {bookData.find((value) => value._id === item.book)?.title ||
+              "Book Title Not Found"}
+          </TableCell>
+          <TableCell>{formatNumber(item.quantity)}</TableCell>
+          <TableCell className="">
+            {formatDateFromString(item.salesDate.toString())}
+          </TableCell>
+          <TableCell>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <MoreVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Edit Fields</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => {
+                    console.log(item._id);
+
+                    fetch(`http://localhost:3001/sales/${item._id}`, {
+                      method: "DELETE",
+                    });
+
+                    window.location.reload();
+                  }}
+                >
+                  Delete
+                </DropdownMenuItem>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TableCell>
         </TableRow>
-      </TableHeader>
-      <TableBody>
-        {sellData?.map((item) => (
-          <TableRow>
-            <TableCell className="font-medium">
-              {bookData.find((value) => value._id === item.book)?.title ||
-                "Book Title Not Found"}
-            </TableCell>
-            <TableCell>{formatNumber(item.quantity)}</TableCell>
-            <TableCell className="">
-              {formatDateFromString(item.salesDate.toString())}
-            </TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <MoreVertical />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Edit Fields</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      console.log(item._id);
-
-                      fetch(`http://localhost:3001/sales/${item._id}`, {
-                        method: "DELETE",
-                      });
-
-                      window.location.reload();
-                    }}
-                  >
-                    Delete
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+      ))}
+    </TableBody>
+  </Table>
+   }
+   </>
   );
 };
 
