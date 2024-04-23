@@ -43,6 +43,7 @@ const Stock = () => {
           price={book.price}
           author={book.author}
           isbn={book.ISBN}
+          id={book._id}
         />
         ))
       }

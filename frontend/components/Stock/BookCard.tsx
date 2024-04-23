@@ -17,6 +17,7 @@ interface BookCardProps {
   isbn: string;
   price: number;
   date: number;
+  id: string;
 }
 import { PencilIcon } from "lucide-react";
 import { Trash2 } from "lucide-react";
@@ -30,6 +31,7 @@ const BookCard = ({
   author,
   isbn,
   date,
+  id,
 }: BookCardProps) => {
   return (
     <div className=" h-auto">
@@ -62,7 +64,13 @@ const BookCard = ({
                 <Button className="">
                   <PencilIcon />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    // console.log(id);
+                    fetch(`http://localhost:3001/book/${id}`, { method: "DELETE" });
+                    window.location.reload();
+                  }}
+                >
                   <Trash2 />
                 </Button>
               </div>

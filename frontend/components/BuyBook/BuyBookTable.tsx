@@ -23,13 +23,14 @@ import { MoreVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 import { bookDataType } from "../Stock/Stock";
 import { formatNumber } from "@/lib/formatters";
-import { formatDate } from "@/lib/formatters";
+import { formatDateFromString } from "@/lib/formatters";
 
 export type buyDataType = {
-  date: Date;
+  salesDate: Date;
   supplier: string;
   book: string;
   quantity: number;
+  _id: string;
 };
 
 const BuyBookTable = () => {
@@ -73,14 +74,30 @@ const BuyBookTable = () => {
             </TableCell>
             <TableCell>{formatNumber(item.quantity)}</TableCell>
             <TableCell>{item.supplier}</TableCell>
-            <TableCell className="">{formatDate(item.date)}</TableCell>
+            <TableCell className="">
+              {formatDateFromString(item.salesDate.toString())}
+            </TableCell>
             <TableCell>
               <DropdownMenu>
-                <DropdownMenuTrigger><MoreVertical /></DropdownMenuTrigger>
+                <DropdownMenuTrigger>
+                  <MoreVertical />
+                </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Edit Fields</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      console.log(item._id);
+
+                      fetch(`http://localhost:3001/buy/${item._id}`, {
+                        method: "DELETE",
+                      });
+
+                      window.location.reload();
+                    }}
+                  >
+                    Delete
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Edit</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

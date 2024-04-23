@@ -1,9 +1,7 @@
 const express =  require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// Import your Book and Sales models
-const { Book,Sales, Buy } = require('./models/schema');
-// const databaseurl = "mongodb+srv://ROOM1097:@DBMSdiu@bookstore.mongocluster.cosmos.azure.com/book?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+const { Book, Sales, Buy } = require('./models/schema');
 const databaseurl = "mongodb+srv://ROOM1097:0DBMSdiu@bookstore.mongocluster.cosmos.azure.com/book?retryWrites=true&w=majority";
 const PORT = 3001;
 const app = express();
@@ -23,37 +21,10 @@ mongoose.connect(databaseurl)
     console.log(e)
 })
 
-// app.post('/book', async (req, res) => {
-//     try {
-//         const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;
-
-//         const newBook = new Book({
-//             title, 
-//             author, 
-//             category, 
-//             ISBN, 
-//             price, 
-//             stockQuantity, 
-//             publicationYear, 
-//             description
-//         });
-
-//         console.log(newBook)
-//         const book = await newBook.save();
-        
-//         res.status(201).send(book);
-//     } catch (error) {
-//         console.error('Error:', error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
-
-
 app.post('/sales', async (req, res) => {
     try {
         const { bookId, quantity } = req.body;
 
-        // Find the book based on the provided bookId
         const book = await Book.findById(bookId);
 
         if (!book) {
@@ -61,15 +32,13 @@ app.post('/sales', async (req, res) => {
         }
         book.stockQuantity -= quantity;
 
-        // Save the updated book to the database
         await book.save();
-        // Create a new sales document
+
         const newSale = new Sales({
-            book: book._id, // Assign the book's ObjectId
+            book: book._id,
             quantity: quantity
         });
 
-        // Save the new sale to the database
         const savedSale = await newSale.save();
         console.log(savedSale)
         res.status(201).send(savedSale);
@@ -93,9 +62,8 @@ app.get('/sales', async (req, res) => {
 
 app.post('/buy', async (req, res) => {
     try {
-        const { bookId, quantity,supplier } = req.body;
+        const { bookId, quantity, supplier } = req.body;
 
-        // Find the book based on the provided bookId
         const book = await Book.findById(bookId);
 
         if (!book) {
@@ -103,16 +71,14 @@ app.post('/buy', async (req, res) => {
         }
         book.stockQuantity += quantity;
 
-        // Save the updated book to the database
         await book.save();
-        // Create a new sales document
+
         const newSale = new Buy({
-            book: book._id, // Assign the book's ObjectId
+            book: book._id,
             quantity: quantity,
-            supplier : supplier
+            supplier: supplier
         });
 
-        // Save the new sale to the database
         const savedSale = await newSale.save();
         console.log(savedSale)
         res.status(201).send(savedSale);
@@ -133,6 +99,34 @@ app.get('/buy', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+app.delete('/buy/:id', async (req, res) => {
+    try {
+        const buyId = req.params.id;
+
+        await Buy.findByIdAndDelete(buyId);
+
+        res.status(200).send('Buy entry deleted successfully');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.delete('/book/:id', async (req, res) => {
+    try {
+        const bookId = req.params.id;
+
+        await Book.findByIdAndDelete(bookId);
+
+        res.status(200).send('Buy entry deleted successfully');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 app.post('/book', async (req, res) => {
     try {
         const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;

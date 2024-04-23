@@ -1,15 +1,17 @@
 const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
-  
-  export function formatDate(date: Date) {
-    return DATE_FORMATTER.format(date);
-  }
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit"
+});
+
+export function formatDateFromString(dateString: string) {
+  const date = new Date(dateString);
+  return DATE_FORMATTER.format(date);
+}
+
   
   const CURRENCY_FORMATTER = new Intl.NumberFormat("en-IN", {
     currency: "INR",
