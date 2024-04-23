@@ -129,6 +129,36 @@ app.delete('/buy/:id', async (req, res) => {
     }
 });
 
+app.delete('/sales/:id', async (req, res) => {
+    try {
+        const saleId = req.params.id;
+
+        const sale = await Sales.findById(saleId);
+
+        if (!sale) {
+            return res.status(404).send('Sale not found');
+        }
+
+        const book = await Book.findById(sale.book);
+
+        if (!book) {
+            return res.status(404).send('Book not found');
+        }
+
+        book.stockQuantity += sale.quantity;
+
+        await book.save();
+
+        await Sales.findByIdAndDelete(saleId);
+
+        res.status(200).send('Sale entry deleted successfully');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 app.delete('/book/:id', async (req, res) => {
     try {

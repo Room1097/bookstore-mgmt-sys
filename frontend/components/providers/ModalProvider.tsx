@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CreateBook from "../CreateBook/CreateBook";
 import BuyBook from "../BuyBook/BuyBook";
-import EditBook from "../Stock/EditBook";
+import SellBook from "../SellBook/SellBook";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -18,6 +18,7 @@ export const ModalProvider = () => {
     <>
       <CreateBook />
       <BuyBook />
+      <SellBook />
     </>
   );
 };
