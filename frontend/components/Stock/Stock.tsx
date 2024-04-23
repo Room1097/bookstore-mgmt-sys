@@ -7,6 +7,7 @@ export type bookDataType = {
   title: string,
   description: string,
   stockQuantity: number,
+  category: string
   price: number,
   author: string,
   ISBN: string,

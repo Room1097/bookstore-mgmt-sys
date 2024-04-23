@@ -144,25 +144,72 @@ app.delete('/book/:id', async (req, res) => {
 });
 
 
-app.post('/book', async (req, res) => {
+app.post('/book/:id', async (req, res) => {
     try {
         const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;
+        const bookId = req.params.id;
+       const bookUpdate = await Book.findById(bookId)
 
-        const newBook = new Book({
-            title, 
-            author, 
-            category, 
-            ISBN, 
-            price, 
-            stockQuantity, 
-            publicationYear, 
-            description
-        });
+       bookUpdate.title = title
+       bookUpdate.author = author
+       bookUpdate.category = category
+       bookUpdate.ISBN = ISBN
+       bookUpdate.price = price
+       bookUpdate.stockQuantity = stockQuantity
+       bookUpdate.publicationYear = publicationYear
+       bookUpdate.description = description
 
-        console.log(newBook)
-        const book = await newBook.save();
+        // console.log(newBook)
+        const book = await bookUpdate.save();
         
         res.status(201).send(book);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.put('/book/:id', async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const { title, author, category, ISBN, price, publicationYear, description } = req.body;
+
+        
+        const existingBook = await Book.findById(id);
+
+        
+        if (!existingBook) {
+            return res.status(404).send('Book not found');
+        }
+
+        
+        existingBook.title = title;
+        existingBook.author = author;
+        existingBook.category = category;
+        existingBook.ISBN = ISBN;
+        existingBook.price = price;
+        existingBook.publicationYear = publicationYear;
+        existingBook.description = description;
+
+        
+        const updatedBook = await existingBook.save();
+        
+        
+        res.status(200).send(updatedBook);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/book/:id', async (req, res) => {
+
+    const bookId = req.params.id;
+
+    try {
+        const book = await Book.findById(bookId);
+        
+        res.status(200).send(book);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');

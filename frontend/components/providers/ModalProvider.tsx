@@ -1,22 +1,23 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import CreateBook from "../CreateBook/CreateBook";
 import BuyBook from "../BuyBook/BuyBook";
+import EditBook from "../Stock/EditBook";
 
-export const ModalProvider = ()=>{
-    const [isMounted,setIsMounted]=useState(false);
+export const ModalProvider = () => {
+  const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(()=>{
-        setIsMounted(true);
-    },[]);
-    if(!isMounted){
-        return null;
-    }
-    return(
-        <>
-        <CreateBook/>
-        <BuyBook/>
-        </>
-    )
-}
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) {
+    return null;
+  }
+  return (
+    <>
+      <CreateBook />
+      <BuyBook />
+    </>
+  );
+};

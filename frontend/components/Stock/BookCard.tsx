@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/formatters";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+
 interface BookCardProps {
   title: string;
   desc: string;
@@ -22,6 +24,7 @@ interface BookCardProps {
 import { PencilIcon } from "lucide-react";
 import { Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
+import EditBook from "./EditBook";
 
 const BookCard = ({
   title,
@@ -59,15 +62,19 @@ const BookCard = ({
             <ScrollArea className="h-[25vh] w-auto rounded-md border p-4">
               {desc}
             </ScrollArea>
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <div>
+                
+              </div>
               <div className="flex justify-center items-center gap-4">
-                <Button className="">
-                  <PencilIcon />
-                </Button>
+                <EditBook id={id} />
+
                 <Button
                   onClick={() => {
                     // console.log(id);
-                    fetch(`http://localhost:3001/book/${id}`, { method: "DELETE" });
+                    fetch(`http://localhost:3001/book/${id}`, {
+                      method: "DELETE",
+                    });
                     window.location.reload();
                   }}
                 >
