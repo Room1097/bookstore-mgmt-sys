@@ -17,5 +17,20 @@ router.get('/revenue', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.get('/stock', async (req, res) => {
+    try {
+        const books = await Book.find();
+   
+        let stock = 0;
+        for (let i = 0; i < books.length; i++) {
+            
+            revenue += books[i].stockQuantity;
+        }
+        res.status(200).json({ revenue: revenue });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 module.exports = router;
