@@ -142,32 +142,46 @@ app.delete('/book/:id', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-
-app.post('/book/:id', async (req, res) => {
-    try {
-        const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;
-        const bookId = req.params.id;
-       const bookUpdate = await Book.findById(bookId)
-
-       bookUpdate.title = title
-       bookUpdate.author = author
-       bookUpdate.category = category
-       bookUpdate.ISBN = ISBN
-       bookUpdate.price = price
-       bookUpdate.stockQuantity = stockQuantity
-       bookUpdate.publicationYear = publicationYear
-       bookUpdate.description = description
-
-        // console.log(newBook)
-        const book = await bookUpdate.save();
-        
-        res.status(201).send(book);
-    } catch (error) {
+app.get('/dash/revenue',async(req,res)=>{
+    try{const books = await Book.find()
+    const sales = await Sales.find()
+    const revenue = 0;
+    for(var i=0;i<sales.length;i++){
+        const price =  (books.find((value)=>value._id===sales[i].book)?.price | 0)*sales[i].quantity;
+        revenue+=price
+    }
+    res.status(200).json({revenue:revenue})}
+    catch(error){
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');
     }
-});
+})
+
+
+// app.post('/book/:id', async (req, res) => {
+//     try {
+//         const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;
+//         const bookId = req.params.id;
+//        const bookUpdate = await Book.findById(bookId)
+
+//        bookUpdate.title = title
+//        bookUpdate.author = author
+//        bookUpdate.category = category
+//        bookUpdate.ISBN = ISBN
+//        bookUpdate.price = price
+//        bookUpdate.stockQuantity = stockQuantity
+//        bookUpdate.publicationYear = publicationYear
+//        bookUpdate.description = description
+
+//         // console.log(newBook)
+//         const book = await bookUpdate.save();
+        
+//         res.status(201).send(book);
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 app.put('/book/:id', async (req, res) => {
     try {
