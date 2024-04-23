@@ -12,6 +12,16 @@ export function formatDateFromString(dateString: string) {
   return DATE_FORMATTER.format(date);
 }
 
+export function formatISBN(isbn: string) {
+  isbn = isbn.replace(/[^\d]/g, '');
+
+  if (isbn.length !== 13) {
+      return "Invalid ISBN";
+  }
+
+  return isbn.slice(0, 3) + '-' + isbn.slice(3, 5) + '-' + isbn.slice(5, 9) + '-' + isbn.slice(9, 12) + '-' + isbn.slice(12);
+}
+
   
   const CURRENCY_FORMATTER = new Intl.NumberFormat("en-IN", {
     currency: "INR",

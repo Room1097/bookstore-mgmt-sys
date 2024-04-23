@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/formatters";
+import { formatCurrency, formatISBN } from "@/lib/formatters";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 
@@ -50,7 +50,7 @@ const BookCard = ({
             </div>
             <div>
             <CardDescription className="capitalize">Category: {category}</CardDescription>
-            <CardDescription>ISBN: {isbn}</CardDescription>
+            <CardDescription>ISBN: {formatISBN(isbn)}</CardDescription>
             </div>
           </div>
         </CardHeader>
