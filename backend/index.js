@@ -188,30 +188,30 @@ app.get('/dash/revenue',async(req,res)=>{
 })
 
 
-// app.post('/book/:id', async (req, res) => {
-//     try {
-//         const { title, author, category, ISBN, price, stockQuantity, publicationYear, description } = req.body;
-//         const bookId = req.params.id;
-//        const bookUpdate = await Book.findById(bookId)
-
-//        bookUpdate.title = title
-//        bookUpdate.author = author
-//        bookUpdate.category = category
-//        bookUpdate.ISBN = ISBN
-//        bookUpdate.price = price
-//        bookUpdate.stockQuantity = stockQuantity
-//        bookUpdate.publicationYear = publicationYear
-//        bookUpdate.description = description
-
-//         // console.log(newBook)
-//         const book = await bookUpdate.save();
+app.post('/book', async (req, res) => {
+    try {
+        const { title, author, category, ISBN, price, publicationYear, description } = req.body;
         
-//         res.status(201).send(book);
-//     } catch (error) {
-//         console.error('Error:', error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
+        const bookUpdate = new Book({
+            title,
+            description,
+            publicationYear,
+            price,
+            ISBN,
+            category,
+            author,
+            stockQuantity:0,
+        })
+
+        // console.log(newBook)
+        const book = await bookUpdate.save();
+        
+        res.status(201).send(book);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.put('/book/:id', async (req, res) => {
     try {
