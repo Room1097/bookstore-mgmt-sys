@@ -23,8 +23,8 @@ const formSchema = z.object({
   author: z.string().min(2).max(50),
   category: z.string().min(2).max(40),
   ISBN: z.string().min(1),
-  price: z.coerce.number(),
-  publicationDate: z.coerce.number(),
+  price: z.coerce.number().nonnegative(),
+  publicationDate: z.coerce.number().min(1800).max(2024),
   description: z.string(),
 });
 

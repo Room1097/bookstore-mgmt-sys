@@ -116,7 +116,7 @@ const BuyBookTable = () => {
                       >
                         Delete
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      {/* <DropdownMenuItem>Edit</DropdownMenuItem> */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

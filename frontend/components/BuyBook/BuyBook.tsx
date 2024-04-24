@@ -37,7 +37,7 @@ import { bookDataType } from "../Stock/Stock";
 
 const formSchema = z.object({
   bookID: z.string().min(2).max(50),
-  quantity: z.coerce.number(),
+  quantity: z.coerce.number().nonnegative(),
   supplier: z.string().min(1),
 });
 
