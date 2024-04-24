@@ -11,10 +11,14 @@ router.post('/', async (req, res) => {
         if (!book) {
             return res.status(404).send('Book not found');
         }
+        const newStock = book.stockQuantity-quantity
+        if(newStock<0){
+            return res.status(400).json({message:"Quantity is more than Stock"})
+        }
         book.stockQuantity -= quantity;
 
         await book.save();
-
+        
         const newSale = new Sales({
             book: book._id,
             quantity: quantity
